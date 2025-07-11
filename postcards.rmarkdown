@@ -74,3 +74,4 @@ model_tidy %>%
   kableExtra::add_header_above(c(" " = 1, "Estimate & 95% CI" = 3)) %>%
   kableExtra::footnote(general = "Source: Gerber, Green & Larimer (2008)")
 ```
+
