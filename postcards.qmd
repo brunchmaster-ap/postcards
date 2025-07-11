@@ -2,5 +2,21 @@
 title: "Voting and Postcards"
 author: Ansh Patel
 format: html
+execute: 
+  echo: false
 ---
 
+```{r}
+#| message: false
+library(tidyverse)
+library(primer.data)
+```
+
+```{r}
+x <- shaming |> 
+  mutate(civ_engage = primary_00 + primary_02 + primary_04 + 
+                      general_00 + general_02 + general_04) |> 
+  select(primary_06, treatment, sex, age, civ_engage)
+```
+
+Voter turnout is a complex behavior influenced by various social and demographic factors. Using data from the Michigan Social Pressure Experiment conducted before the 2006 primary election, which includes over 340,000 households, we seek to understand how different treatments affect the likelihood of voting in that election.
