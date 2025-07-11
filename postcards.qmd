@@ -10,6 +10,8 @@ execute:
 #| message: false
 library(tidyverse)
 library(primer.data)
+library(tidymodels)
+library(broom)
 ```
 
 ```{r}
@@ -20,3 +22,25 @@ x <- shaming |>
 ```
 
 Voter turnout is a complex behavior influenced by various social and demographic factors. Using data from the Michigan Social Pressure Experiment conducted before the 2006 primary election, which includes over 340,000 households, we seek to understand how different treatments affect the likelihood of voting in that election. A potential weakness of our model is that unmeasured factors influencing both treatment assignment and voter turnout could bias our estimated effects.
+
+$$
+P(Y = 1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n)}}
+$$
+
+with $Y \sim \text{Bernoulli}(\rho)$ where $\rho$ is the probability above.
+
+$$
+\begin{align}
+\log\left(\frac{P(\text{voted} = 1)}{1 - P(\text{voted} = 1)}\right) &= -2.43 + 0.01 \cdot \text{age} + 0.04 \cdot \text{sexMale} + 0.09 \cdot \text{treatmentCivic Duty} + 0.07 \cdot \text{treatmentHawthorne} \\
+&\quad + 0.20 \cdot \text{treatmentSelf} + 0.36 \cdot \text{treatmentNeighbors} + 0.82 \cdot \text{voter_classSometimes Vote} \\
+&\quad + 1.61 \cdot \text{voter_classAlways Vote} + 0.03 \cdot \text{treatmentCivic Duty} \times \text{voter_classSometimes Vote} \\
+&\quad + 0.06 \cdot \text{treatmentHawthorne} \times \text{voter_classSometimes Vote} + 0.05 \cdot \text{treatmentSelf} \times \text{voter_classSometimes Vote} \\
+&\quad + 0.04 \cdot \text{treatmentNeighbors} \times \text{voter_classSometimes Vote} - 0.05 \cdot \text{treatmentCivic Duty} \times \text{voter_classAlways Vote} \\
+&\quad + 0.06 \cdot \text{treatmentHawthorne} \times \text{voter_classAlways Vote} - 0.01 \cdot \text{treatmentSelf} \times \text{voter_classAlways Vote} \\
+&\quad + 0.01 \cdot \text{treatmentNeighbors} \times \text{voter_classAlways Vote}
+\end{align}
+$$
+
+```{r}
+#| cache: true
+```

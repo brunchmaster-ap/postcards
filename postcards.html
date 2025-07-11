@@ -36,6 +36,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="postcards_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="postcards_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -71,6 +100,21 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Voter turnout is a complex behavior influenced by various social and demographic factors. Using data from the Michigan Social Pressure Experiment conducted before the 2006 primary election, which includes over 340,000 households, we seek to understand how different treatments affect the likelihood of voting in that election. A potential weakness of our model is that unmeasured factors influencing both treatment assignment and voter turnout could bias our estimated effects.</p>
+<p><span class="math display">\[
+P(Y = 1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n)}}
+\]</span></p>
+<p>with <span class="math inline">\(Y \sim \text{Bernoulli}(\rho)\)</span> where <span class="math inline">\(\rho\)</span> is the probability above.</p>
+<p><span class="math display">\[
+\begin{align}
+\log\left(\frac{P(\text{voted} = 1)}{1 - P(\text{voted} = 1)}\right) &amp;= -2.43 + 0.01 \cdot \text{age} + 0.04 \cdot \text{sexMale} + 0.09 \cdot \text{treatmentCivic Duty} + 0.07 \cdot \text{treatmentHawthorne} \\
+&amp;\quad + 0.20 \cdot \text{treatmentSelf} + 0.36 \cdot \text{treatmentNeighbors} + 0.82 \cdot \text{voter_classSometimes Vote} \\
+&amp;\quad + 1.61 \cdot \text{voter_classAlways Vote} + 0.03 \cdot \text{treatmentCivic Duty} \times \text{voter_classSometimes Vote} \\
+&amp;\quad + 0.06 \cdot \text{treatmentHawthorne} \times \text{voter_classSometimes Vote} + 0.05 \cdot \text{treatmentSelf} \times \text{voter_classSometimes Vote} \\
+&amp;\quad + 0.04 \cdot \text{treatmentNeighbors} \times \text{voter_classSometimes Vote} - 0.05 \cdot \text{treatmentCivic Duty} \times \text{voter_classAlways Vote} \\
+&amp;\quad + 0.06 \cdot \text{treatmentHawthorne} \times \text{voter_classAlways Vote} - 0.01 \cdot \text{treatmentSelf} \times \text{voter_classAlways Vote} \\
+&amp;\quad + 0.01 \cdot \text{treatmentNeighbors} \times \text{voter_classAlways Vote}
+\end{align}
+\]</span></p>
 
 </main>
 <!-- /main column -->
