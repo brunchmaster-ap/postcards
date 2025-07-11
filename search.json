@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "postcards.html",
+    "href": "postcards.html",
+    "title": "Voting and Postcards",
+    "section": "",
+    "text": "Voter turnout is a complex behavior influenced by various social and demographic factors. Using data from the Michigan Social Pressure Experiment conducted before the 2006 primary election, which includes over 340,000 households, we seek to understand how different treatments affect the likelihood of voting in that election. A potential weakness of our model is that unmeasured factors influencing both treatment assignment and voter turnout could bias our estimated effects. We model the probability of voting as a logistic function of whether someone received a postcard and other factors like civic engagement. We estimate that receiving a ‘Neighbors’ postcard increases the probability of voting by about 36 percentage points, with a 95% confidence interval from about 28% to 44%.\n\\[\nP(Y = 1) = \\frac{1}{1 + e^{-(\\beta_0 + \\beta_1 X_1 + \\beta_2 X_2 + \\cdots + \\beta_n X_n)}}\n\\]\nwith \\(Y \\sim \\text{Bernoulli}(\\rho)\\) where \\(\\rho\\) is the probability above.\n\\[\n\\begin{align}\n\\log\\left(\\frac{P(\\text{voted} = 1)}{1 - P(\\text{voted} = 1)}\\right) &= -2.43 + 0.01 \\cdot \\text{age} + 0.04 \\cdot \\text{sexMale} + 0.09 \\cdot \\text{treatmentCivic Duty} + 0.07 \\cdot \\text{treatmentHawthorne} \\\\\n&\\quad + 0.20 \\cdot \\text{treatmentSelf} + 0.36 \\cdot \\text{treatmentNeighbors} + 0.82 \\cdot \\text{voter_classSometimes Vote} \\\\\n&\\quad + 1.61 \\cdot \\text{voter_classAlways Vote} + 0.03 \\cdot \\text{treatmentCivic Duty} \\times \\text{voter_classSometimes Vote} \\\\\n&\\quad + 0.06 \\cdot \\text{treatmentHawthorne} \\times \\text{voter_classSometimes Vote} + 0.05 \\cdot \\text{treatmentSelf} \\times \\text{voter_classSometimes Vote} \\\\\n&\\quad + 0.04 \\cdot \\text{treatmentNeighbors} \\times \\text{voter_classSometimes Vote} - 0.05 \\cdot \\text{treatmentCivic Duty} \\times \\text{voter_classAlways Vote} \\\\\n&\\quad + 0.06 \\cdot \\text{treatmentHawthorne} \\times \\text{voter_classAlways Vote} - 0.01 \\cdot \\text{treatmentSelf} \\times \\text{voter_classAlways Vote} \\\\\n&\\quad + 0.01 \\cdot \\text{treatmentNeighbors} \\times \\text{voter_classAlways Vote}\n\\end{align}\n\\]\n\n\n\nTable: Logistic regression estimates with 95% confidence intervals. Data source: Michigan voting experiment (Gerber et al., 2008).\n\n\n\n\n\n\n\n\n\n\nEstimate & 95% CI\n\n\n\nTerm\nEstimate\nConf. Low\nConf. High\n\n\n\n\n(Intercept)\n-3.249\n-3.287\n-3.211\n\n\nage\n0.010\n0.009\n0.010\n\n\nciv_engage\n0.490\n0.482\n0.497\n\n\ntreatmentCivic Duty\n0.091\n0.067\n0.116\n\n\ntreatmentHawthorne\n0.126\n0.102\n0.150\n\n\ntreatmentSelf\n0.237\n0.213\n0.262\n\n\ntreatmentNeighbors\n0.391\n0.367\n0.415\n\n\n\nNote: \n\n\n\n\n\n Source: Gerber, Green & Larimer (2008)"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Voting and Postcards",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  }
+]
