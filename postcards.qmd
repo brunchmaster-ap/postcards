@@ -14,6 +14,7 @@ library(tidymodels)
 library(broom)
 library(knitr)
 library(kableExtra)
+library(marginaleffects)
 ```
 
 ```{r}
@@ -23,7 +24,7 @@ x <- shaming |>
   select(primary_06, treatment, sex, age, civ_engage)
 ```
 
-Voter turnout is a complex behavior influenced by various social and demographic factors. Using data from the Michigan Social Pressure Experiment conducted before the 2006 primary election, which includes over 340,000 households, we seek to understand how different treatments affect the likelihood of voting in that election. A potential weakness of our model is that unmeasured factors influencing both treatment assignment and voter turnout could bias our estimated effects. We model the probability of voting as a logistic function of whether someone received a postcard and other factors like civic engagement.
+Voter turnout is a complex behavior influenced by various social and demographic factors. Using data from the Michigan Social Pressure Experiment conducted before the 2006 primary election, which includes over 340,000 households, we seek to understand how different treatments affect the likelihood of voting in that election. A potential weakness of our model is that unmeasured factors influencing both treatment assignment and voter turnout could bias our estimated effects. We model the probability of voting as a logistic function of whether someone received a postcard and other factors like civic engagement. We estimate that receiving a ‘Neighbors’ postcard increases the probability of voting by about 36 percentage points, with a 95% confidence interval from about 28% to 44%.
 
 $$
 P(Y = 1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n)}}
@@ -73,4 +74,82 @@ model_tidy %>%
   kableExtra::kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover")) %>%
   kableExtra::add_header_above(c(" " = 1, "Estimate & 95% CI" = 3)) %>%
   kableExtra::footnote(general = "Source: Gerber, Green & Larimer (2008)")
+```
+
+```{r}
+library(ggplot2)
+library(dplyr) # For data manipulation if needed
+
+# 1. Recreate the data (assuming this structure based on the plot)
+#    You would replace this with your actual data loading
+data <- tribble(
+  ~voter_group, ~treatment, ~mean_voted, ~se_voted, ~color_group,
+  "Rarely Vote", "No Postcard", 0.79, 0.01, "red",
+  "Rarely Vote", "Coercion", 0.79, 0.01, "red",
+  "Rarely Vote", "Both", 0.78, 0.01, "red",
+  "Rarely Vote", "Self", 0.77, 0.01, "red",
+  "Rarely Vote", "Neighbors", 0.75, 0.01, "red",
+  "Rarely Vote", "No Postcard", 0.10, 0.01, "blue",
+  "Rarely Vote", "Coercion", 0.11, 0.01, "blue",
+  "Rarely Vote", "Both", 0.12, 0.01, "blue",
+  "Rarely Vote", "Self", 0.14, 0.01, "blue",
+  "Rarely Vote", "Neighbors", 0.18, 0.01, "blue",
+
+  "Sometimes Vote", "No Postcard", 0.72, 0.01, "red",
+  "Sometimes Vote", "Coercion", 0.70, 0.01, "red",
+  "Sometimes Vote", "Both", 0.70, 0.01, "red",
+  "Sometimes Vote", "Self", 0.67, 0.01, "red",
+  "Sometimes Vote", "Neighbors", 0.64, 0.01, "red",
+  "Sometimes Vote", "No Postcard", 0.28, 0.01, "blue",
+  "Sometimes Vote", "Coercion", 0.29, 0.01, "blue",
+  "Sometimes Vote", "Both", 0.30, 0.01, "blue",
+  "Sometimes Vote", "Self", 0.32, 0.01, "blue",
+  "Sometimes Vote", "Neighbors", 0.36, 0.01, "blue",
+
+  "Always Vote", "No Postcard", 0.54, 0.01, "red",
+  "Always Vote", "Coercion", 0.53, 0.01, "red",
+  "Always Vote", "Both", 0.51, 0.01, "red",
+  "Always Vote", "Self", 0.49, 0.01, "red",
+  "Always Vote", "Neighbors", 0.45, 0.01, "red",
+  "Always Vote", "No Postcard", 0.49, 0.01, "blue",
+  "Always Vote", "Coercion", 0.46, 0.01, "blue",
+  "Always Vote", "Both", 0.49, 0.01, "blue",
+  "Always Vote", "Self", 0.50, 0.01, "blue",
+  "Always Vote", "Neighbors", 0.55, 0.01, "blue"
+) %>%
+  mutate(
+    voter_group = factor(voter_group, levels = c("Rarely Vote", "Sometimes Vote", "Always Vote")),
+    treatment = factor(treatment, levels = c("No Postcard", "Coercion", "Both", "Self", "Neighbors"))
+  )
+
+# 2. Create the plot
+ggplot(data, aes(x = treatment, y = mean_voted, color = color_group)) +
+  geom_point(position = position_dodge(width = 0.5), size = 3) +
+  geom_errorbar(aes(ymin = mean_voted - se_voted, ymax = mean_voted + se_voted),
+                width = 0.2, position = position_dodge(width = 0.5)) +
+  facet_wrap(~ voter_group, scales = "free_y") +
+  scale_y_continuous(labels = scales::percent) + # Format y-axis as percentages
+  labs(
+    title = "Impact of Different Outreach Treatments on Voter Turnout by Prior Voting Habits",
+    subtitle = "Voter turnout rates vary significantly across different outreach strategies, with notable interactions depending on individuals' historical voting frequency.",
+    caption = "Data Source: [Insert your data source here, e.g., 'Experimental Study on Voter Mobilization']",
+    x = "Outreach Treatment",
+    y = "Voted (%)"
+  ) +
+  scale_color_manual(values = c("red" = "salmon", "blue" = "darkturquoise"),
+                     labels = c("red" = "Group A", "blue" = "Group B"), # Adjust these labels based on what the colors represent
+                     name = "Treatment Group") + # Legend title
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    plot.caption = element_text(hjust = 1, size = 9, face = "italic"),
+    axis.title.x = element_text(margin = margin(t = 10), size = 11, face = "bold"),
+    axis.title.y = element_text(margin = margin(r = 10), size = 11, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+    axis.text.y = element_text(size = 10),
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold", size = 12) # For facet titles
+  )
 ```

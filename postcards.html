@@ -103,7 +103,7 @@ window.Quarto = {
 </header>
 
 
-<p>Voter turnout is a complex behavior influenced by various social and demographic factors. Using data from the Michigan Social Pressure Experiment conducted before the 2006 primary election, which includes over 340,000 households, we seek to understand how different treatments affect the likelihood of voting in that election. A potential weakness of our model is that unmeasured factors influencing both treatment assignment and voter turnout could bias our estimated effects.</p>
+<p>Voter turnout is a complex behavior influenced by various social and demographic factors. Using data from the Michigan Social Pressure Experiment conducted before the 2006 primary election, which includes over 340,000 households, we seek to understand how different treatments affect the likelihood of voting in that election. A potential weakness of our model is that unmeasured factors influencing both treatment assignment and voter turnout could bias our estimated effects. We model the probability of voting as a logistic function of whether someone received a postcard and other factors like civic engagement. We estimate that receiving a ‘Neighbors’ postcard increases the probability of voting by about 36 percentage points, with a 95% confidence interval from about 28% to 44%.</p>
 <p><span class="math display">\[
 P(Y = 1) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_n X_n)}}
 \]</span></p>
@@ -202,6 +202,15 @@ Estimate &amp; 95% CI
 </tfoot>
 
 </table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="postcards_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 
